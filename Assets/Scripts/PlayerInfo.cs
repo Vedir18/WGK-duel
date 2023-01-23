@@ -4,9 +4,11 @@ using UnityEngine;
 using Elympics;
 public class PlayerInfo : ElympicsMonoBehaviour, IObservable
 {
+    public float maxHP = 20;
     public ElympicsFloat hp = new ElympicsFloat(20);
     [SerializeField] private int playerID;
     [SerializeField] private ActionManager actionManager;
+    public long curTick => Elympics.Tick;
 
     public int GetID()
     {

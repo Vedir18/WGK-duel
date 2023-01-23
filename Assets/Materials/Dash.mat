@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Dash
-  m_Shader: {fileID: -6465566751694194690, guid: e1a7a414aa6a6554ba3fd693f4b472c8,
+  m_Shader: {fileID: -6465566751694194690, guid: af5fd8ee84c9b4344b0b8f52abf0f8a1,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -35,12 +35,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Fresnel: 2
     - _FresnelIntensity: 3
     - _FresnelPow: 2.94
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color: {r: 0.19842428, g: 0.41568628, b: 0, a: 0.11764706}
+    - _Color: {r: 0.061961927, g: 0.3679245, b: 0, a: 1}
+    - _FresCol: {r: 0.38891646, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6405326877636373460
 MonoBehaviour:

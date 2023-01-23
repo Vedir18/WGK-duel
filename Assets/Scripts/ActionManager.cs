@@ -7,6 +7,10 @@ using Elympics;
 public class ActionManager : ElympicsMonoBehaviour
 {
     [SerializeField] private ElympicsInt actionInProgress = new ElympicsInt(0); //0 - N, 1 - S, 2 - T, 3 - D, 4 - B
+    [SerializeField] private const float maxStamina = 7;
+    [SerializeField] private ElympicsFloat currentStamina = new ElympicsFloat(maxStamina);
+    public float curStam => currentStamina.Value;
+    [SerializeField] private float staminaRefreshRate;
     public int AIP => actionInProgress.Value;
 
     [Header("General refs")]
@@ -22,8 +26,8 @@ public class ActionManager : ElympicsMonoBehaviour
 
     [Header("AttackVars")]
     [SerializeField] private int attackDuration;
-    [SerializeField] private int attackCDDuration;
-    [SerializeField] private long attackCooldown = -1;
+    public int attackCDDuration;
+    public long attackCooldown = -1;
 
     private bool swipingRight;
 
@@ -32,8 +36,8 @@ public class ActionManager : ElympicsMonoBehaviour
 
     [Header("ThrustVars")]
     [SerializeField] private int thrustDuration;
-    [SerializeField] private int thrustCDDuration;
-    [SerializeField] private long thrustCooldown = -1;
+    public int thrustCDDuration;
+    public long thrustCooldown = -1;
 
     [SerializeField] private float thrustReach;
     [SerializeField] private float lean;
@@ -41,19 +45,21 @@ public class ActionManager : ElympicsMonoBehaviour
 
     [Header("BlockVars")]
     [SerializeField] private int blockDuration;
-    [SerializeField] private int blockCDDuration;
-    [SerializeField] private long blockCooldown = -1;
+    public int blockCDDuration;
+    public long blockCooldown = -1;
     private Color a4 = Color.blue;
 
     [Header("DashVars")]
     [SerializeField] private int dashDuration;
-    [SerializeField] private int dashCDDuration;
-    [SerializeField] private long dashCooldown = -1;
+    public int dashCDDuration;
+    public long dashCooldown = -1;
 
     private Color a3 = Color.green;
 
     public void HandleActions(bool attack, bool thrust, bool block, bool dash, long tick)
     {
+        currentStamina.Value = Mathf.Min(maxStamina, currentStamina.Value + staminaRefreshRate * Elympics.TickDuration);
+
         int lastAction = AIP;
         //Debug.Log($"A { attack} T { thrust} B {block} D {dash} TICK { tick}");
         if(block && actionInProgress.Value != 4 && tick > blockCooldown) StartBlock(tick);
@@ -111,6 +117,9 @@ public class ActionManager : ElympicsMonoBehaviour
 
     private void StartAttack(long tick)
     {
+        if (currentStamina.Value < 1) return;
+        else currentStamina.Value = Mathf.Floor(curStam -1);
+
         swipingRight = !swipingRight;
         actionInProgress.Value = 1;
         actionStart = tick;
@@ -127,6 +136,9 @@ public class ActionManager : ElympicsMonoBehaviour
 
     private void StartThrust(long tick)
     {
+        if (currentStamina.Value < 1) return;
+        else currentStamina.Value = Mathf.Floor(curStam -1);
+
         swipingRight = !swipingRight;
         actionInProgress.Value = 2;
         actionStart = tick;
@@ -146,6 +158,9 @@ public class ActionManager : ElympicsMonoBehaviour
 
     private void StartDash(long tick)
     {
+        if (currentStamina.Value < 1) return;
+        else currentStamina.Value = Mathf.Floor(curStam -1);
+
         actionInProgress.Value = 3;
         actionStart = tick;
         actionEnd = tick + dashDuration;
@@ -155,6 +170,9 @@ public class ActionManager : ElympicsMonoBehaviour
 
     private void StartBlock(long tick) 
     {
+        if (currentStamina.Value < 1) return;
+        else currentStamina.Value = Mathf.Floor(curStam -1);
+
         actionInProgress.Value = 4;
         actionStart = tick;
         actionEnd = tick + blockDuration;

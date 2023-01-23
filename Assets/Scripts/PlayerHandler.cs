@@ -5,6 +5,8 @@ using Elympics;
 
 public class PlayerHandler : ElympicsMonoBehaviour, IUpdatable, IInputHandler
 {
+    [SerializeField] public ElympicsBool canMove = new ElympicsBool(true);
+
     [SerializeField] private InputManager inputManager;
     [SerializeField] private MovementHandler movementHandler;
     [SerializeField] private PlayerInfo playerInfo;
@@ -26,6 +28,12 @@ public class PlayerHandler : ElympicsMonoBehaviour, IUpdatable, IInputHandler
 
     public void ElympicsUpdate()
     {
+        if (!canMove)
+        {
+            movementHandler.HandleMovement(Vector2.zero, mousePosition);
+            return;
+        }
+
         if(ElympicsBehaviour.TryGetInput(PredictableFor, out var inputReader, 4))
         {
             float x1;
