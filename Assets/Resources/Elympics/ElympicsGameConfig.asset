@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameName: WGK
   gameId: 050f2464-cb7d-4f1f-ada1-dd575fd135fb
-  gameVersion: 1
+  gameVersion: 2
   players: 2
   gameplayScene: Assets/Scenes/SampleScene.unity
   gameplaySceneAsset: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05,
@@ -29,7 +29,7 @@ MonoBehaviour:
   prediction: 1
   predictionLimitInTicks: 8
   detailedNetworkLog: 0
-  mode: 1
+  mode: 2
   halfRemoteMode: 0
   useWebInHalfRemote: 0
   ipForHalfRemoteMode: 127.0.0.1

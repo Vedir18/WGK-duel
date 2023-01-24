@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Elympics;
 
 public class GameManager : ElympicsMonoBehaviour, IInitializable
@@ -25,11 +26,25 @@ public class GameManager : ElympicsMonoBehaviour, IInitializable
 
             ph1.canMove.Value = false;
             ph2.canMove.Value = false;
+
+            if (Elympics.IsServer) EndGame();
         }
+        
     }
 
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void ToMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    private void EndGame()
+    {
+
+        Elympics.EndGame();
     }
 }
