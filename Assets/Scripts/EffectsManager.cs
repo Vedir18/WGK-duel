@@ -17,6 +17,14 @@ public class EffectsManager : ElympicsMonoBehaviour, IUpdatable, IInitializable
 
     [SerializeField] private GameObject cubeClone;
 
+    [Header("SoundEffects")]
+    [SerializeField] private AudioSource swipe1, swipe2;
+    [SerializeField] private AudioSource thrust1, thrust2;
+    [SerializeField] private AudioSource block1, block2;
+    [SerializeField] private AudioSource dash1, dash2;
+    [SerializeField] private AudioSource dmg1, dmg2;
+    private bool s, t, b, d, dmg;
+
     private int lastAction = 0;
     private bool dashActive;
 
@@ -44,16 +52,25 @@ public class EffectsManager : ElympicsMonoBehaviour, IUpdatable, IInitializable
                 case 1:
                     swordTrail.enabled = true;
                     swordTrail.material.color = swipeColor;
+                    
+                    if (s) swipe1.Play();
+                    else swipe2.Play();
                     break;
                 case 2:
                     swordTrail.enabled = true;
                     swordTrail.material.color = thrustColor;
+                    if (t) thrust1.Play();
+                    else thrust2.Play();
                     break;
                 case 3:
                     dashActive = true;
+                    if (d) dash1.Play();
+                    else dash2.Play();
                     break;
                 case 4:
                     shieldEffect.SetActive(true);
+                    if (b) block1.Play();
+                    else block2.Play();
                     break;
             }
         }else if(dashActive)
@@ -74,5 +91,7 @@ public class EffectsManager : ElympicsMonoBehaviour, IUpdatable, IInitializable
     private void PlayDmged(float a, float b)
     {
         dmgEffect.Play();
+        if (dmg) dmg1.Play();
+        else dmg2.Play();
     }
 }

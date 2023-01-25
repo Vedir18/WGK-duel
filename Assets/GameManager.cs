@@ -4,33 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Elympics;
 
-public class GameManager : ElympicsMonoBehaviour, IInitializable
+public class GameManager : ElympicsMonoBehaviour, IUpdatable
 {
     [SerializeField] private UIManager uIManager;
     [SerializeField] private PlayerInfo p1, p2;
     [SerializeField] private PlayerHandler ph1, ph2;
+    private bool gameEnded = false;
 
-    public void Initialize()
-    {
-        p1.hp.ValueChanged += EndGameMayby;
-        p2.hp.ValueChanged += EndGameMayby;
-    }
 
-    private void EndGameMayby(float a, float b)
-    {
-        if(b <= 0)
-        {
-            if (p1.hp.Value <= 0 && p2.hp.Value <= 0) uIManager.GameOver(2);
-            else if (p1.hp.Value <= 0) uIManager.GameOver(1);
-            else if (p2.hp.Value <= 0) uIManager.GameOver(0);
-
-            ph1.canMove.Value = false;
-            ph2.canMove.Value = false;
-
-            if (Elympics.IsServer) EndGame();
-        }
-        
-    }
 
     public void QuitGame()
     {
@@ -46,5 +27,25 @@ public class GameManager : ElympicsMonoBehaviour, IInitializable
     {
 
         Elympics.EndGame();
+    }
+
+    public void ElympicsUpdate()
+    {
+        if (p1.hp <= 0 || p2.hp <= 0)
+        {
+            if (p1.hp.Value <= 0 && p2.hp.Value <= 0) uIManager.GameOver(2);
+            else if (p1.hp.Value <= 0) uIManager.GameOver(1);
+            else if (p2.hp.Value <= 0) uIManager.GameOver(0);
+
+            ph1.canMove.Value = false;
+            ph2.canMove.Value = false;
+
+            gameEnded = true;
+
+            if (Elympics.IsServer) EndGame();
+        }else if(gameEnded)
+        {
+            uIManager.RevertGameOver();
+        }
     }
 }

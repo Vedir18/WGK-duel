@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameName: WGK
   gameId: 050f2464-cb7d-4f1f-ada1-dd575fd135fb
-  gameVersion: 2
+  gameVersion: 3
   players: 2
   gameplayScene: Assets/Scenes/SampleScene.unity
   gameplaySceneAsset: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05,

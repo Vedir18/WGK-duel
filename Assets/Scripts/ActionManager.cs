@@ -9,10 +9,11 @@ public class ActionManager : ElympicsMonoBehaviour
     [SerializeField] private ElympicsInt actionInProgress = new ElympicsInt(0); //0 - N, 1 - S, 2 - T, 3 - D, 4 - B
     [SerializeField] private const float maxStamina = 7;
     [SerializeField] private ElympicsFloat currentStamina = new ElympicsFloat(maxStamina);
+
     public float curStam => currentStamina.Value;
     [SerializeField] private float staminaRefreshRate;
     public int AIP => actionInProgress.Value;
-
+    public int lastAction = 0;
     [Header("General refs")]
     private long actionStart, actionEnd;
     private Color a0 = Color.grey;
@@ -29,7 +30,8 @@ public class ActionManager : ElympicsMonoBehaviour
     public int attackCDDuration;
     public long attackCooldown = -1;
 
-    private bool swipingRight;
+    private ElympicsBool SwipingRight = new ElympicsBool();
+    private bool swipingRight => SwipingRight.Value;
 
     [SerializeField] private float swipeAngle;
     private Color a1 = Color.red;
@@ -60,7 +62,7 @@ public class ActionManager : ElympicsMonoBehaviour
     {
         currentStamina.Value = Mathf.Min(maxStamina, currentStamina.Value + staminaRefreshRate * Elympics.TickDuration);
 
-        int lastAction = AIP;
+        lastAction = AIP;
         //Debug.Log($"A { attack} T { thrust} B {block} D {dash} TICK { tick}");
         if(block && actionInProgress.Value != 4 && tick > blockCooldown) StartBlock(tick);
         else if(dash && actionInProgress.Value != 3 && tick > dashCooldown) StartDash(tick);
@@ -120,7 +122,7 @@ public class ActionManager : ElympicsMonoBehaviour
         if (currentStamina.Value < 1) return;
         else currentStamina.Value = Mathf.Floor(curStam -1);
 
-        swipingRight = !swipingRight;
+        SwipingRight.Value = !swipingRight;
         actionInProgress.Value = 1;
         actionStart = tick;
         actionEnd = tick + attackDuration;
@@ -139,7 +141,7 @@ public class ActionManager : ElympicsMonoBehaviour
         if (currentStamina.Value < 1) return;
         else currentStamina.Value = Mathf.Floor(curStam -1);
 
-        swipingRight = !swipingRight;
+        SwipingRight.Value = !swipingRight;
         actionInProgress.Value = 2;
         actionStart = tick;
         actionEnd = tick + thrustDuration;

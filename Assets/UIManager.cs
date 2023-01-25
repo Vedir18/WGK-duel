@@ -69,4 +69,12 @@ public class UIManager : ElympicsMonoBehaviour
 
         quitButton.SetActive(true);
     }
+
+    public void RevertGameOver()
+    {
+        p1Won.SetActive(false);
+        p2Won.SetActive(false);
+        draw.SetActive(false);
+        quitButton.SetActive(false);
+    }
 }
